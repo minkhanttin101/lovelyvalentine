@@ -1,0 +1,105 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Memories</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #EDE68A;
+            flex-direction: column;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        img {
+            width: 80%;
+            max-width: 400px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #383A56;
+            color: #EDE68A;
+            border: none;
+            cursor: pointer;
+            margin: 5px;
+            border-radius: 20px;
+        }
+        button:hover {
+            background-color: #2F3032;
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #F72C5B;
+            transform: rotate(-45deg);
+            animation: floatUp 4s infinite ease-in-out;
+            opacity: 0.5;
+        }
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #F72C5B;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+        .heart::after {
+            left: 10px;
+            top: 0;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(1) rotate(-45deg); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(0.5) rotate(-45deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h2>❤️Our Beautiful Moments❤️</h2>
+    <img id="photo" src="image_1.jpg" alt="Memorable Photo">
+    <button onclick="changePhoto()">Next Memories</button>
+    <button onclick="goToFlowerGallery()">Flower Gallery</button>
+    <div class="hearts" id="hearts"></div>
+    <script>
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.getElementById("hearts").appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+    <script>
+        const images = ["image_1.jpg","image_2.jpg","image_3.jpg","image_4.jpg","image_5.jpg","image_6.jpg","image_7.jpg","image_8.jpg","image_9.jpg","image_11.jpg","image_12.jpg","image_13.jpg","image_14.jpg","image_15.jpg","image_16.jpg","image_17.jpg","image_18.jpg","image_19.jpg","image_20.jpg","image_21.jpg","image_22.jpg","image_23.jpg","image_24.jpg","image_25.jpg","image_26.jpg","image_27.jpg","image_28.jpg"]; // Add your image filenames here
+        let index = 0;
+        function changePhoto() {
+            index = (index + 1) % images.length;
+            document.getElementById("photo").src = images[index];
+        }
+        function goToFlowerGallery() {
+            window.location.href = "flower.html";
+        }
+    </script>
+</body>
+</html>

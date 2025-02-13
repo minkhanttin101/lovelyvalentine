@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Location</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: pink;
+            flex-direction: column;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        img {
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+        button:hover {
+            background-color: darkred;
+        }
+
+        .hearts {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        .heart {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #FFF5D7;
+            transform: rotate(-45deg);
+            animation: floatUp 4s infinite ease-in-out;
+            opacity: 0.5;
+        }
+        .heart::before, .heart::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #FFF5D7;
+            border-radius: 50%;
+        }
+        .heart::before {
+            top: -10px;
+            left: 0;
+        }
+        .heart::after {
+            left: 10px;
+            top: 0;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(1) rotate(-45deg); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(0.5) rotate(-45deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h2>Happy Valentine Day</h2>
+        <h2>💛 May 💛</h2>
+        <h2> Love You </h2>
+    <h2>🍫Enjoy your Chocolate🍫</h2>
+    <img src="gift.png" alt="Gift Location">
+    <button onclick="window.location.href='gallery.html'">Back to Memories</button>
+    <div class="hearts" id="hearts"></div>
+    <script>
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.classList.add("heart");
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = Math.random() * 2 + 3 + "s";
+            document.getElementById("hearts").appendChild(heart);
+            setTimeout(() => heart.remove(), 4000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>

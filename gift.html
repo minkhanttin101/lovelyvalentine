@@ -1,0 +1,171 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #EEE4B1;
+            flex-direction: column;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+        }
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #5F374B;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            border: 2px solid #430A5D;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #8C6A5D;
+            color: #EEE4B1;
+            border: none;
+            cursor: pointer;
+            border-radius: 20px;
+        }
+        button:hover {
+            background-color: #5F374B;
+        }
+    </style>
+</head>
+<body>
+    <h3 id="gameMessage">Win the Tix Tac Toe GameTo Reveal Your Gift!</h3>
+    <div class="board" id="board"></div>
+    <button id="giftButton" class="hidden" onclick="goToGiftPage()">Here Is Your Gift</button>
+    <button id="resetButton" class="hidden" onclick="resetGame()">Try Again</button>
+
+    <script>
+        const board = document.getElementById("board");
+        const giftButton = document.getElementById("giftButton");
+        const resetButton = document.getElementById("resetButton");
+        const gameMessage = document.getElementById("gameMessage");
+        let currentPlayer = "💛";
+        let cells = Array(9).fill(null);
+        let gameOver = false;
+
+        function checkWinner() {
+            const winningCombinations = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+            for (let combo of winningCombinations) {
+                const [a, b, c] = combo;
+                if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
+                    if (cells[a] === "💛") {
+                        gameMessage.textContent = "YOU WIN!!";
+                        giftButton.classList.remove("hidden");
+                    } else {
+                        gameMessage.textContent = "DRAW & YOU LOSE";
+                    }
+                    gameOver = true;
+                    resetButton.classList.remove("hidden");
+                    return true;
+                }
+            }
+            // Check if there's a draw
+            if (!cells.includes(null)) {
+                gameMessage.textContent = "DRAW & YOU LOSE";
+                gameOver = true;
+                resetButton.classList.remove("hidden");
+            }
+            return false;
+        }
+
+        function handleClick(index) {
+            if (!cells[index] && currentPlayer === "💛" && !gameOver) {
+                cells[index] = "💛";
+                renderBoard();
+                if (!checkWinner()) {
+                    currentPlayer = "🙈";
+                    setTimeout(computerMove, 500);
+                }
+            }
+        }
+
+        function computerMove() {
+            let emptyCells = cells.map((val, idx) => val === null ? idx : null).filter(val => val !== null);
+            if (emptyCells.length > 0) {
+                let randomIndex;
+                if (Math.random() < 0.5) {
+                    randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)]; // Easy
+                } else {
+                    randomIndex = blockOrWin() || emptyCells[Math.floor(Math.random() * emptyCells.length)]; // Medium/Hard
+                }
+                cells[randomIndex] = "🙈";
+                renderBoard();
+                if (!checkWinner()) {
+                    currentPlayer = "💛";
+                }
+            }
+        }
+
+        function blockOrWin() {
+            const winningCombinations = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+            for (let combo of winningCombinations) {
+                const [a, b, c] = combo;
+                if (cells[a] === "🙈" && cells[b] === "🙈" && cells[c] === null) return c;
+                if (cells[a] === "🙈" && cells[c] === "🙈" && cells[b] === null) return b;
+                if (cells[b] === "🙈" && cells[c] === "🙈" && cells[a] === null) return a;
+                if (cells[a] === "💛" && cells[b] === "💛" && cells[c] === null) return c;
+                if (cells[a] === "💛" && cells[c] === "💛" && cells[b] === null) return b;
+                if (cells[b] === "💛" && cells[c] === "💛" && cells[a] === null) return a;
+            }
+            return null;
+        }
+
+        function renderBoard() {
+            board.innerHTML = "";
+            cells.forEach((value, index) => {
+                const cell = document.createElement("div");
+                cell.classList.add("cell");
+                cell.textContent = value;
+                cell.onclick = () => handleClick(index);
+                board.appendChild(cell);
+            });
+        }
+
+        function resetGame() {
+            cells = Array(9).fill(null);
+            currentPlayer = "💛";
+            gameOver = false;
+            gameMessage.textContent = "Win the Tix Tac Toe Game To Reveal Your Gift!";
+            giftButton.classList.add("hidden");
+            resetButton.classList.add("hidden");
+            renderBoard();
+        }
+
+        function goToGiftPage() {
+            window.location.href = "gift_location.html";
+        }
+
+        renderBoard();
+    </script>
+</body>
+</html>
