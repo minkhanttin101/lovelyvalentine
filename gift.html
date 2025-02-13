@@ -51,7 +51,7 @@
     </style>
 </head>
 <body>
-    <h3 id="gameMessage">Win the Tix Tac Toe GameTo Reveal Your Gift!</h3>
+    <h3 id="gameMessage">Win the Tic Tac Toe GameTo Reveal Your Gift!</h3>
     <div class="board" id="board"></div>
     <button id="giftButton" class="hidden" onclick="goToGiftPage()">Here Is Your Gift</button>
     <button id="resetButton" class="hidden" onclick="resetGame()">Try Again</button>
@@ -75,10 +75,10 @@
                 const [a, b, c] = combo;
                 if (cells[a] && cells[a] === cells[b] && cells[a] === cells[c]) {
                     if (cells[a] === "💛") {
-                        gameMessage.textContent = "YOU WIN!!";
+                        gameMessage.textContent = "YOU WIN !!!";
                         giftButton.classList.remove("hidden");
                     } else {
-                        gameMessage.textContent = "DRAW & YOU LOSE";
+                        gameMessage.textContent = "DRAW & YOU LOSE 🥹";
                     }
                     gameOver = true;
                     resetButton.classList.remove("hidden");
